@@ -1,0 +1,22 @@
+#DrawCircleTest
+
+import numpy as np
+import cv2
+
+
+cap = cv2.VideoCapture(1)
+
+while(True):
+	#Capture frame-by-frame
+	ret, frame = cap.read()
+	
+	#Draw Circle
+	cv2.circle(frame, (100,100), 20, (255,0,0), 5)
+	
+	#Display frame
+	cv2.imshow('frame',frame)
+	if cv2.waitKey(5) & 0xFF == 27:
+		break
+		
+cap.release()
+cv2.destroyAllWindows()
