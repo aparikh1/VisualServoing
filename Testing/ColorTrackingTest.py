@@ -3,8 +3,8 @@ import imutils
 import cv2
 
 #Define bounds of color
-greenLower = (45, 100, 113)
-greenUpper = (102, 160, 166)
+Lower = (107, 195, 26)
+Upper = (121, 255, 156)
 
 #initialize camera
 camera = cv2.VideoCapture(1)
@@ -21,7 +21,7 @@ while True:
 	hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 	
 	#Make bitmask for color, the dilate and erod to remove small blobs left in mask
-	mask = cv2.inRange(hsv, greenLower, greenUpper)
+	mask = cv2.inRange(hsv, Lower, Upper)
 	mask = cv2.erode(mask, None, iterations=2)
 	mask = cv2.dilate(mask, None, iterations=2)
 	
@@ -36,18 +36,21 @@ while True:
 		((x,y), radius) = cv2.minEnclosingCircle(c)
 		M = cv2.moments(c)
 		center = (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"]))
+		print (radius)
 		
 		#draw circle and centroid on frame
 		cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
 		cv2.circle(frame, center, 5, (0, 0, 255), -1)
 		
-		#show frame
-		cv2.imshow("Frame", frame)
-		#cv2.imshow("Mask", mask)
-	
-		#wait for 'esc' key
-		if cv2.waitKey(5) & 0xFF == 27:
-			break
+		
+		
+	#show frame
+	cv2.imshow("Frame", frame)
+	#cv2.imshow("Mask", mask)
+
+	#wait for 'esc' key
+	if cv2.waitKey(5) & 0xFF == 27:
+		break
 		
 #release camera and close windows
 camera.release()
